@@ -1,13 +1,14 @@
-package me.flodt.sat.dpll;
+package me.flodt.sat.logic;
 
 import java.util.Set;
 
-public interface AbstractClause {
+public interface AbstractClause extends Iterable<AbstractLiteral> {
 	Set<AbstractLiteral> getContents();
 	boolean containsLiteral(AbstractLiteral literal);
 	void removeLiteral(AbstractLiteral literal);
 	boolean isEmpty();
 	boolean isSingleton();
 	AbstractLiteral getSingletonLiteral();
+	boolean equals(Object o);
 	AbstractClause clone();
 }

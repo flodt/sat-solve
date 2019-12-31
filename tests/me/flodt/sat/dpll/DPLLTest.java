@@ -1,5 +1,6 @@
 package me.flodt.sat.dpll;
 
+import me.flodt.sat.logic.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DPLLTest {
 	@ParameterizedTest
 	@MethodSource("getTestClauseSetsAndAssignments")
-	@DisplayName("DPLL-Algorithm")
+	@DisplayName("DPLL algorithm")
 	void dpllSolver(AbstractClauseSet clauseSet, Assignment assignments, boolean satisfiable) {
 		SatisfiabilitySolution solution = new Solver().solve(clauseSet);
 

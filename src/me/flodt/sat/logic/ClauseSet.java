@@ -1,4 +1,4 @@
-package me.flodt.sat.dpll;
+package me.flodt.sat.logic;
 
 import java.util.*;
 
@@ -60,8 +60,32 @@ public class ClauseSet implements AbstractClauseSet {
 	}
 
 	@Override
+	public void addClause(AbstractClause clause) {
+		clauseSet.add(clause);
+	}
+
+	@Override
 	public void removeClause(AbstractClause clause) {
 		clauseSet.remove(clause);
+	}
+
+	@Override
+	public AbstractClause anyClause() {
+		return clauseSet.iterator().next();
+	}
+
+	@Override
+	public boolean isRepetitive() {
+		AbstractClause compareable = anyClause();
+
+		return clauseSet.stream().allMatch(cl -> cl.equals(compareable));
+	}
+
+	@Override
+	public void removeLiteralsFromClauses(Set<AbstractLiteral> literals) {
+		for (AbstractClause clause : clauseSet) {
+			literals.forEach(clause::removeLiteral);
+		}
 	}
 
 	@Override
@@ -97,6 +121,11 @@ public class ClauseSet implements AbstractClauseSet {
 	}
 
 	@Override
+	public int size() {
+		return clauseSet.size();
+	}
+
+	@Override
 	public AbstractClauseSet clone() {
 		Set<AbstractClause> newSet = new HashSet<>();
 
@@ -123,6 +152,11 @@ public class ClauseSet implements AbstractClauseSet {
 
 		clauseSet.removeIf(cl -> cl.containsLiteral(literal.negated()));
 		clauseSet.forEach(cl -> cl.removeLiteral(literal));
+	}
+
+	@Override
+	public Iterator<AbstractClause> iterator() {
+		return clauseSet.iterator();
 	}
 
 	@Override

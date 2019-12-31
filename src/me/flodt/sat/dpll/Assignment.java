@@ -1,5 +1,7 @@
 package me.flodt.sat.dpll;
 
+import me.flodt.sat.logic.AbstractLiteral;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;

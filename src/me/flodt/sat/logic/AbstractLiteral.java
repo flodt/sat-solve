@@ -1,4 +1,4 @@
-package me.flodt.sat.dpll;
+package me.flodt.sat.logic;
 
 import java.util.Comparator;
 
@@ -12,4 +12,5 @@ public interface AbstractLiteral {
 	AbstractLiteral negated();
 	String descriptor();
 	AbstractLiteral clone();
+	boolean equals(Object o);
 }

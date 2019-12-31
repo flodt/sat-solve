@@ -1,4 +1,4 @@
-package me.flodt.sat.dpll;
+package me.flodt.sat.logic;
 
 import java.util.Objects;
 

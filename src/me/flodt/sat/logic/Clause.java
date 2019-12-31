@@ -1,7 +1,8 @@
-package me.flodt.sat.dpll;
+package me.flodt.sat.logic;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @SuppressWarnings("MethodDoesntCallSuperMethod")
@@ -56,11 +57,20 @@ public class Clause implements AbstractClause {
 		return new Clause(set);
 	}
 
+	public static AbstractClause empty() {
+		return new Clause(new HashSet<>());
+	}
+
 	@Override
 	public String toString() {
 		return "{" +
 				contents +
 				'}';
+	}
+
+	@Override
+	public Iterator<AbstractLiteral> iterator() {
+		return getContents().iterator();
 	}
 
 	@Override

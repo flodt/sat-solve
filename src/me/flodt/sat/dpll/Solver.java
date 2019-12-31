@@ -1,5 +1,8 @@
 package me.flodt.sat.dpll;
 
+import me.flodt.sat.logic.AbstractClauseSet;
+import me.flodt.sat.logic.AbstractLiteral;
+
 public class Solver {
 	private final Assignment assignments;
 
@@ -13,7 +16,7 @@ public class Solver {
 		return recursiveSolve(clauseSet);
 	}
 
-	public SatisfiabilitySolution recursiveSolve(AbstractClauseSet clauseSet) {
+	private SatisfiabilitySolution recursiveSolve(AbstractClauseSet clauseSet) {
 		if (clauseSet.containsEmptyClause()) {
 			return new SatisfiabilitySolution();
 		}

@@ -1,5 +1,7 @@
 package me.flodt.sat.dpll;
 
+import me.flodt.sat.logic.AbstractLiteral;
+
 public class SatisfiabilitySolution {
 	private final boolean satisfiable;
 	private final Assignment assignments;

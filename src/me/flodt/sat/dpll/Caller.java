@@ -1,5 +1,9 @@
 package me.flodt.sat.dpll;
 
+import me.flodt.sat.logic.Clause;
+import me.flodt.sat.logic.ClauseSet;
+import me.flodt.sat.logic.Literal;
+
 public class Caller {
 	public static void main(String[] args) {
 		//experimentation here
