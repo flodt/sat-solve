@@ -15,46 +15,27 @@ public class Assignment {
 
 	public void putDontCare(AbstractLiteral literal) {
 		assignments.put(literal, Value.DONT_CARE);
+		assignments.put(literal.negated(), Value.DONT_CARE);
 	}
 
 	public void putTrue(AbstractLiteral literal) {
 		assignments.put(literal, Value.TRUE);
-
-		assignments.keySet().forEach(key -> {
-			if (key.equals(literal.negated())) {
-				assignments.put(key, Value.FALSE);
-			}
-		});
+		assignments.put(literal.negated(), Value.FALSE);
 	}
 
 	public void putTrueByRule(AbstractLiteral literal) {
 		assignments.put(literal, Value.TRUE_RULE);
-
-		assignments.keySet().forEach(key -> {
-			if (key.equals(literal.negated())) {
-				assignments.put(key, Value.FALSE_RULE);
-			}
-		});
+		assignments.put(literal.negated(), Value.FALSE_RULE);
 	}
 
 	public void putFalse(AbstractLiteral literal) {
 		assignments.put(literal, Value.FALSE);
-
-		assignments.keySet().forEach(key -> {
-			if (key.equals(literal.negated())) {
-				assignments.put(key, Value.TRUE);
-			}
-		});
+		assignments.put(literal.negated(), Value.TRUE);
 	}
 
 	public void putFalseByRule(AbstractLiteral literal) {
 		assignments.put(literal, Value.FALSE_RULE);
-
-		assignments.keySet().forEach(key -> {
-			if (key.equals(literal.negated())) {
-				assignments.put(key, Value.TRUE_RULE);
-			}
-		});
+		assignments.put(literal.negated(), Value.TRUE_RULE);
 	}
 
 	public Map<AbstractLiteral, Value> getAsMap() {

@@ -1,7 +1,9 @@
 package me.flodt.sat.dpll;
 
 import me.flodt.sat.logic.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,6 +13,11 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DPLLTest {
+	@BeforeEach
+	void initialize() {
+		Options.reset();
+	}
+
 	@ParameterizedTest
 	@MethodSource("getTestClauseSetsAndAssignments")
 	@DisplayName("DPLL algorithm")
@@ -26,10 +33,43 @@ class DPLLTest {
 		}
 	}
 
+	@Test
+	@DisplayName("Options for excluding some rules")
+	void handlesOptions() {
+		Options.disallowPLR();
+
+		Literal A = new Literal(true, "A");
+		Literal B = new Literal(true, "B");
+		Literal C = new Literal(true, "C");
+		Literal D = new Literal(true, "D");
+
+		ClauseSet clauseSet = ClauseSet.of(
+				Clause.of(A, B.negated(), C.negated()),
+				Clause.of(A, B, D),
+				Clause.of(A, C.negated(), D.negated()),
+				Clause.of(A.negated(), B),
+				Clause.of(A.negated(), B.negated())
+		);
+
+		//expected solution is
+		Assignment assignments = new Assignment();
+		assignments.putFalse(A);
+		assignments.putTrue(B);
+		assignments.putFalse(C);
+		assignments.putDontCare(D);
+
+		SatisfiabilitySolution solution = new Solver().solve(clauseSet);
+
+		for (AbstractLiteral lit : assignments.getAsMap().keySet()) {
+			assertEquals(assignments.valueOf(lit).toString(), solution.valueOf(lit).toString());
+		}
+	}
+
 	static Stream<Arguments> getTestClauseSetsAndAssignments() {
 		return Stream.of(
 				exampleOne(),
 				exampleTwo(),
+				exampleThree(),
 				contradiction(),
 				tautology(),
 				trivialTautology(),
@@ -99,6 +139,30 @@ class DPLLTest {
 		assignments.putTrue(t);
 		assignments.putTrue(u);
 		assignments.putFalse(y);
+
+		return Arguments.of(clauseSet, assignments, true);
+	}
+
+	static Arguments exampleThree() {
+		Literal A = new Literal(true, "A");
+		Literal B = new Literal(true, "B");
+		Literal C = new Literal(true, "C");
+		Literal D = new Literal(true, "D");
+
+		ClauseSet clauseSet = ClauseSet.of(
+				Clause.of(A, B.negated(), C.negated()),
+				Clause.of(A, B, D),
+				Clause.of(A, C.negated(), D.negated()),
+				Clause.of(A.negated(), B),
+				Clause.of(A.negated(), B.negated())
+		);
+
+		//expected solution is
+		Assignment assignments = new Assignment();
+		assignments.putFalse(A);
+		assignments.putDontCare(B);
+		assignments.putFalse(C);
+		assignments.putTrue(D);
 
 		return Arguments.of(clauseSet, assignments, true);
 	}

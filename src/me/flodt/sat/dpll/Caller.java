@@ -74,4 +74,21 @@ public class Caller {
 				).toString()
 		);
 	}
+
+	private static void exampleFour() {
+		Literal A = new Literal(true, "A");
+		Literal B = new Literal(true, "B");
+		Literal C = new Literal(true, "C");
+		Literal D = new Literal(true, "D");
+
+		ClauseSet clauseSet = ClauseSet.of(
+				Clause.of(A, B.negated(), C.negated()),
+				Clause.of(A, B, D),
+				Clause.of(A, C.negated(), D.negated()),
+				Clause.of(A.negated(), B),
+				Clause.of(A.negated(), B.negated())
+		);
+
+		System.out.println(new Solver().solve(clauseSet).toString());
+	}
 }

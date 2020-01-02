@@ -25,7 +25,7 @@ public class Solver {
 			return new SatisfiabilitySolution(assignments);
 		}
 
-		if (clauseSet.OLRapplicable()) {
+		if (Options.OLRallowed() && clauseSet.OLRapplicable()) {
 			AbstractLiteral olr = clauseSet.getOLRLiteral();
 			assignments.putTrueByRule(olr);
 
@@ -35,7 +35,7 @@ public class Solver {
 			return recursiveSolve(newSet);
 		}
 
-		if (clauseSet.PLRapplicable()) {
+		if (Options.PLRallowed() && clauseSet.PLRapplicable()) {
 			AbstractLiteral plr = clauseSet.getPLRLiteral();
 			assignments.putTrueByRule(plr);
 
