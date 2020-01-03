@@ -24,4 +24,50 @@ public enum Value {
 				return "invalid";
 		}
 	}
+
+	public boolean isTrue() {
+		switch (this) {
+			case TRUE:
+			case TRUE_RULE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public boolean couldBeTrue() {
+		switch (this) {
+			case TRUE:
+			case TRUE_RULE:
+			case DONT_CARE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public boolean isFalse() {
+		switch (this) {
+			case FALSE:
+			case FALSE_RULE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public boolean couldBeFalse() {
+		switch (this) {
+			case FALSE:
+			case FALSE_RULE:
+			case DONT_CARE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public boolean isDontCare() {
+		return this == Value.DONT_CARE;
+	}
 }

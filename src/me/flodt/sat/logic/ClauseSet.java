@@ -1,6 +1,7 @@
 package me.flodt.sat.logic;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @SuppressWarnings("MethodDoesntCallSuperMethod")
 public class ClauseSet implements AbstractClauseSet {
@@ -157,6 +158,11 @@ public class ClauseSet implements AbstractClauseSet {
 	@Override
 	public Iterator<AbstractClause> iterator() {
 		return clauseSet.iterator();
+	}
+
+	@Override
+	public Stream<AbstractClause> stream() {
+		return clauseSet.stream();
 	}
 
 	@Override

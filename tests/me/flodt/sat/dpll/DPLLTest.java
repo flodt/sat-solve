@@ -33,36 +33,38 @@ class DPLLTest {
 		}
 	}
 
-	@Test
-	@DisplayName("Options for excluding some rules")
-	void handlesOptions() {
+	@ParameterizedTest
+	@MethodSource("getTestClauseSetsAndAssignments")
+	@DisplayName("Excluding rules still produces satisfiable results")
+	void excludingOptions(AbstractClauseSet clauseSet, Assignment assignments, boolean satisfiable) {
+		SatisfiabilitySolution solution;
+
+		Options.disallowOLR();
+		solution = new Solver().solve(clauseSet);
+		assertEquals(satisfiable, solution.isSatisfiable());
+		assertEquals(solution.isSatisfiable(), isSatisfiableUnderAssignment(solution.getClauseSet(), solution.getAssignments()));
+
+		Options.reset();
 		Options.disallowPLR();
+		solution = new Solver().solve(clauseSet);
+		assertEquals(satisfiable, solution.isSatisfiable());
+		assertEquals(solution.isSatisfiable(), isSatisfiableUnderAssignment(solution.getClauseSet(), solution.getAssignments()));
 
-		Literal A = new Literal(true, "A");
-		Literal B = new Literal(true, "B");
-		Literal C = new Literal(true, "C");
-		Literal D = new Literal(true, "D");
+		Options.reset();
+		Options.disallowOLR();
+		Options.disallowPLR();
+		solution = new Solver().solve(clauseSet);
+		assertEquals(satisfiable, solution.isSatisfiable());
+		assertEquals(solution.isSatisfiable(), isSatisfiableUnderAssignment(solution.getClauseSet(), solution.getAssignments()));
+	}
 
-		ClauseSet clauseSet = ClauseSet.of(
-				Clause.of(A, B.negated(), C.negated()),
-				Clause.of(A, B, D),
-				Clause.of(A, C.negated(), D.negated()),
-				Clause.of(A.negated(), B),
-				Clause.of(A.negated(), B.negated())
-		);
+	@Test
+	@DisplayName("The clause set inside the SatSolution is immutable")
+	void satSolutionImmutability() {
+		SatisfiabilitySolution solution = new SatisfiabilitySolution(new Assignment());
 
-		//expected solution is
-		Assignment assignments = new Assignment();
-		assignments.putFalse(A);
-		assignments.putTrue(B);
-		assignments.putFalse(C);
-		assignments.putDontCare(D);
-
-		SatisfiabilitySolution solution = new Solver().solve(clauseSet);
-
-		for (AbstractLiteral lit : assignments.getAsMap().keySet()) {
-			assertEquals(assignments.valueOf(lit).toString(), solution.valueOf(lit).toString());
-		}
+		assertDoesNotThrow(() -> solution.setClauseSet(ClauseSet.empty()));
+		assertThrows(IllegalStateException.class, () -> solution.setClauseSet(ClauseSet.of(Clause.empty())));
 	}
 
 	static Stream<Arguments> getTestClauseSetsAndAssignments() {
@@ -216,5 +218,14 @@ class DPLLTest {
 				assignments,
 				true
 		);
+	}
+
+	static boolean isSatisfiableUnderAssignment(AbstractClauseSet clauseSet, Assignment assignment) {
+		if (assignment == null) {
+			return false;
+		}
+
+		return clauseSet.stream()
+				.allMatch(clause -> clause.stream().anyMatch(lit -> assignment.valueOf(lit).couldBeTrue()));
 	}
 }

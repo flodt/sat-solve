@@ -1,6 +1,7 @@
 package me.flodt.sat.logic;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 public interface AbstractClauseSet extends Iterable<AbstractClause> {
 	boolean containsClause(AbstractClause clause);
@@ -23,4 +24,5 @@ public interface AbstractClauseSet extends Iterable<AbstractClause> {
 	void cleanUpWhenTrue(AbstractLiteral literal);
 	void cleanUpWhenFalse(AbstractLiteral literal);
 	int size();
+	Stream<AbstractClause> stream();
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @SuppressWarnings("MethodDoesntCallSuperMethod")
 public class Clause implements AbstractClause {
@@ -71,6 +72,11 @@ public class Clause implements AbstractClause {
 	@Override
 	public Iterator<AbstractLiteral> iterator() {
 		return getContents().iterator();
+	}
+
+	@Override
+	public Stream<AbstractLiteral> stream() {
+		return getContents().stream();
 	}
 
 	@Override

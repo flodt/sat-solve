@@ -11,9 +11,19 @@ public class Solver {
 	}
 
 	public SatisfiabilitySolution solve(AbstractClauseSet clauseSet) {
+		AbstractClauseSet original = clauseSet.clone();
+
 		clauseSet.literals().forEach(assignments::putDontCare);
 
-		return recursiveSolve(clauseSet);
+		SatisfiabilitySolution solution = recursiveSolve(clauseSet);
+		solution.setClauseSet(original);
+
+		if (solution.isSatisfiable()
+				&& !isSatisfiableUnderAssignment(solution.getClauseSet(), solution.getAssignments())) {
+			throw new IllegalStateException("Invalid solution");
+		}
+
+		return solution;
 	}
 
 	private SatisfiabilitySolution recursiveSolve(AbstractClauseSet clauseSet) {
@@ -71,5 +81,10 @@ public class Solver {
 		}
 
 		return recursiveSolve(newSet);
+	}
+
+	private static boolean isSatisfiableUnderAssignment(AbstractClauseSet clauseSet, Assignment assignment) {
+		return clauseSet.stream()
+				.allMatch(clause -> clause.stream().anyMatch(lit -> assignment.valueOf(lit).couldBeTrue()));
 	}
 }
