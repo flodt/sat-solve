@@ -42,6 +42,7 @@ public class Sudoku {
 		solution.literals().stream()
 				.filter(AbstractLiteral::isPositive)
 				.map(lit -> (SudokuLiteral) lit)
+				.filter(lit -> solution.valueOf(lit).isTrue())
 				.forEach(s -> generated[s.getLine() - 1][s.getRow() - 1] = s.getEntry());
 		
 		return new Sudoku(generated);

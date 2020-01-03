@@ -62,7 +62,7 @@ public class SudokuLiteral implements AbstractLiteral {
 		return line == that.line &&
 				row == that.row &&
 				positive == that.positive &&
-				entry == that.entry;
+				entry.intValue() == that.entry.intValue();
 	}
 
 	@Override
