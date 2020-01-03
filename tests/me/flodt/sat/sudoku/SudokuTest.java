@@ -48,7 +48,6 @@ class SudokuTest {
 	}
 
 	@Test
-	@Disabled
 	@DisplayName("Solves actual Sudoku")
 	void solvesSudoku() {
 		Sudoku expected = Sudoku.parseStartingCondition(
