@@ -3,6 +3,9 @@ package me.flodt.sat.dpll;
 import me.flodt.sat.logic.AbstractClauseSet;
 import me.flodt.sat.logic.AbstractLiteral;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class SatisfiabilitySolution {
 	private final boolean satisfiable;
 	private final Assignment assignments;
@@ -46,6 +49,10 @@ public class SatisfiabilitySolution {
 		} else {
 			return Value.INVALID;
 		}
+	}
+
+	public Set<AbstractLiteral> literals() {
+		return assignments != null ? assignments.literals() : new HashSet<>();
 	}
 
 	@Override

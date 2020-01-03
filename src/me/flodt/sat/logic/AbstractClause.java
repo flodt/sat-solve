@@ -3,6 +3,7 @@ package me.flodt.sat.logic;
 import java.util.Set;
 import java.util.stream.Stream;
 
+@SuppressWarnings("unused")
 public interface AbstractClause extends Iterable<AbstractLiteral> {
 	Set<AbstractLiteral> getContents();
 	boolean containsLiteral(AbstractLiteral literal);

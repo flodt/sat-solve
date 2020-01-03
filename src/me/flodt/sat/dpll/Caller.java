@@ -5,6 +5,7 @@ import me.flodt.sat.logic.ClauseSet;
 import me.flodt.sat.logic.Literal;
 
 public class Caller {
+	@SuppressWarnings("EmptyMethod")
 	public static void main(String[] args) {
 		//experimentation here
 	}

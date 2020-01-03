@@ -27,6 +27,10 @@ public class Solver {
 	}
 
 	private SatisfiabilitySolution recursiveSolve(AbstractClauseSet clauseSet) {
+		if (Options.debugAllowed()) {
+			System.out.println(clauseSet.size() + " clauses in set");
+		}
+
 		if (clauseSet.containsEmptyClause()) {
 			return new SatisfiabilitySolution();
 		}

@@ -4,6 +4,7 @@ import me.flodt.sat.logic.AbstractLiteral;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Assignment {
@@ -48,6 +49,10 @@ public class Assignment {
 
 	public boolean isFixedByRule(AbstractLiteral literal) {
 		return (valueOf(literal).equals(Value.TRUE_RULE) || valueOf(literal).equals(Value.FALSE_RULE));
+	}
+
+	public Set<AbstractLiteral> literals() {
+		return assignments.keySet();
 	}
 
 	@Override
