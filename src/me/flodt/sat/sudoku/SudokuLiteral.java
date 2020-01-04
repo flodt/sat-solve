@@ -37,10 +37,6 @@ public class SudokuLiteral implements AbstractLiteral {
 		return entry;
 	}
 
-	public int getAsInt() {
-		return entry.intValue();
-	}
-
 	public int getLine() {
 		return line;
 	}

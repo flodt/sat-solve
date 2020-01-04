@@ -66,7 +66,9 @@ public class Solver {
 		AbstractClauseSet newSet = clauseSet.clone();
 		newSet.cleanUpWhenTrue(literal);
 
-		if (!recursiveSolve(newSet).isSatisfiable()) {
+		SatisfiabilitySolution rest = recursiveSolve(newSet);
+
+		if (!rest.isSatisfiable()) {
 			//otherwise set to false and clean up
 
 			//clean up the assignment map to preserve DONT_CAREs (was changed by recursion)
@@ -82,9 +84,11 @@ public class Solver {
 			assignments.putFalse(literal);
 			newSet = clauseSet.clone();
 			newSet.cleanUpWhenFalse(literal);
+
+			rest = recursiveSolve(newSet);
 		}
 
-		return recursiveSolve(newSet);
+		return rest;
 	}
 
 	private static boolean isSatisfiableUnderAssignment(AbstractClauseSet clauseSet, Assignment assignment) {
