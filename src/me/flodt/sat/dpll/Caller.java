@@ -92,4 +92,23 @@ public class Caller {
 
 		System.out.println(new Solver().solve(clauseSet).toString());
 	}
+
+	private static void exampleFive() {
+		Literal p = new Literal(true, "p");
+		Literal r = new Literal(true, "r");
+		Literal w = new Literal(true, "w");
+		Literal y = new Literal(true, "y");
+
+		ClauseSet clauseSet = ClauseSet.of(
+				Clause.of(p, w.negated()),
+				Clause.of(p, y),
+				Clause.of(p.negated(), r.negated(), w.negated(), y),
+				Clause.of(r),
+				Clause.of(r.negated(), w, y.negated()),
+				Clause.of(w, y),
+				Clause.of(w.negated(), y.negated())
+		);
+
+		System.out.println(new Solver().solve(clauseSet).toString());
+	}
 }
